@@ -1,9 +1,3 @@
---
-
--- Create a database using `MYSQL_DATABASE` placeholder
-
---
-
 CREATE DATABASE IF NOT EXISTS rsshubdb;
 
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'qazxsw';
