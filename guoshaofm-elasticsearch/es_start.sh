@@ -19,9 +19,12 @@ elif [[ ! -d $ES_PLUGINS_DIR ]]; then
 fi
 chmod -R 777 $ES_HOME
 
-docker run --name elasticsearch --network host \
-        --log-opt max-size=500m --log-opt max-file=3 \
-        -e "discovery.type=single-node"\
+docker run --name elasticsearch \
+        -p 9200:9200 \
+        -p 9300:9300 \
+        --log-opt max-size=500m \
+        --log-opt max-file=3 \
+        -e "discovery.type=single-node" \
         -e ES_JAVA_OPTS="-Xms128m -Xmx1024m" \
         -e ELASTIC_USERNAME=elastic \
         -e ELASTIC_PASSWORD=qazxsw \
