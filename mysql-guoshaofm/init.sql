@@ -6,8 +6,18 @@ USE guoshaofmdb;
 
 -- guoshaofmdb.feed_channel definition
 CREATE TABLE
+    `daily_feed_item_record` (
+        `channel_id` varchar(64) NOT NULL,
+        `item_id` varchar(64) NOT NULL,
+        `pub_date` date DEFAULT NULL,
+        KEY `dfiu_idx_pubdate` (`pub_date`) USING BTREE,
+        KEY `dfiu_idx_channel_id` (`channel_id`) USING BTREE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE TABLE
     `feed_channel` (
         `id` varchar(64) NOT NULL,
+        `ido` varchar(64) NOT NULL,
         `title` varchar(128) DEFAULT NULL,
         `channel_desc` mediumtext,
         `image_url` varchar(128) DEFAULT NULL,
@@ -21,9 +31,15 @@ CREATE TABLE
         `feed_type` varchar(128) DEFAULT NULL,
         `categories` varchar(128) DEFAULT NULL,
         PRIMARY KEY (`id`)
-    );
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
--- guoshaofmdb.feed_item definition
+CREATE TABLE
+    `feed_channel_update_record` (
+        `channel_id` varchar(64) NOT NULL,
+        `func_name` varchar(100) NOT NULL,
+        `update_time` datetime NOT NULL,
+        UNIQUE KEY `fcu_idx_channel_id` (`channel_id`) USING BTREE
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 CREATE TABLE
     `feed_item` (
@@ -47,9 +63,7 @@ CREATE TABLE
         PRIMARY KEY (`id`),
         KEY `rfi_idx_channel_id` (`channel_id`),
         KEY `rfi_idx_pub_date` (`pub_date`)
-    );
-
--- guoshaofmdb.keyword_subscription definition
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 CREATE TABLE
     `keyword_subscription` (
@@ -66,9 +80,7 @@ CREATE TABLE
             `lang`,
             `order_by_date`
         )
-    );
-
--- guoshaofmdb.user_info definition
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 CREATE TABLE
     `user_info` (
@@ -82,9 +94,7 @@ CREATE TABLE
         `update_date` date DEFAULT NULL,
         `avatar` varchar(256) DEFAULT NULL,
         PRIMARY KEY (`id`)
-    );
-
--- guoshaofmdb.user_listen_later definition
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 CREATE TABLE
     `user_listen_later` (
@@ -93,12 +103,11 @@ CREATE TABLE
         `item_id` varchar(128) DEFAULT NULL,
         `channel_id` varchar(128) DEFAULT NULL,
         `reg_date` datetime DEFAULT NULL,
+        `status` int DEFAULT '1',
         PRIMARY KEY (`id`),
         KEY `ull_idx_user_id` (`user_id`),
         KEY `ull_idx_item_id` (`item_id`)
-    );
-
--- guoshaofmdb.user_sub_keyword definition
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
 
 CREATE TABLE
     `user_sub_keyword` (
@@ -108,9 +117,8 @@ CREATE TABLE
         `order_by_date` int DEFAULT NULL,
         `create_time` datetime DEFAULT NULL,
         `lang` varchar(64) DEFAULT NULL COMMENT 'feed language',
+        `status` int DEFAULT '1',
         KEY `usk_idx_keyword` (`keyword`),
         KEY `usk_idx_user_id` (`user_id`),
         KEY `usk_user_id_keyword` (`user_id`, `keyword`)
-    );
-
-
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;

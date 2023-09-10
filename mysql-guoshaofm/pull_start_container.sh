@@ -1,26 +1,27 @@
-echo "stop guoshaofm-mariadb"
-docker stop guoshaofm-mariadb
-echo "remove guoshaofm-mariadb container"
-docker container rm guoshaofm-mariadb
-echo "remove beegedelow/guoshaofm-mariadb image"
-docker rmi beegedelow/guoshaofm-mariadb
-echo "pull beegedelow/guoshaofm-mariadb image"
-docker pull beegedelow/guoshaofm-mariadb
+echo "stop guoshaofm-mysqldb"
+docker stop guoshaofm-mysqldb
+echo "remove guoshaofm-mysqldb container"
+docker container rm guoshaofm-mysqldb
+echo "remove beegedelow/guoshaofm-mysqldb image"
+docker rmi beegedelow/guoshaofm-mysqldb
+echo "pull beegedelow/guoshaofm-mysqldb image"
+docker pull beegedelow/guoshaofm-mysqldb
 
-LOGS_DIR=/home/guoshaofm-mariadb/logs
+DB_HOME=$HOME/guoshaofm/mysqldb/
+LOGS_DIR=$DB_HOME/logs
 if [[ ! -e $LOGS_DIR ]]; then
     mkdir -p $LOGS_DIR
 elif [[ ! -d $LOGS_DIR ]]; then
     echo "$LOGS_DIR already exists but is not a directory" 1>&2
 fi
 
-DATA_DIR=/home/guoshaofm-mariadb/data
+DATA_DIR=$DB_HOME/datadir
 if [[ ! -e $DATA_DIR ]]; then
     mkdir -p $DATA_DIR
 elif [[ ! -d $DATA_DIR ]]; then
     echo "$DATA_DIR already exists but is not a directory" 1>&2
 fi
 
-echo "run guoshaofm-mariadb container"
+echo "run guoshaofm-mysqldb container"
 
-docker run --name guoshaofm-mariadb -p 3306:3306  -v $LOGS_DIR:/app/logs -v $DATA_DIR:/var/lib/mysql -d beegedelow/guoshaofm-mariadb:latest
+docker run --name guoshaofm-mysqldb -p 3306:3306  -v $LOGS_DIR:/app/logs -v $DATA_DIR:/var/lib/mysql -d beegedelow/guoshaofm-mysqldb:latest

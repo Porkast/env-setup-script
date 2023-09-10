@@ -1,7 +1,18 @@
-DB_DATA_DIR=$HOME/guoshaofm/mariadb/datadir
-if [[ ! -e $DB_DATA_DIR ]]; then
-    mkdir -p $DB_DATA_DIR
-elif [[ ! -d $DB_DATA_DIR ]]; then
-    echo "$DB_DATA_DIR already exists but is not a directory" 1>&2
+DB_HOME=$HOME/guoshaofm/mysqldb/
+LOGS_DIR=$DB_HOME/logs
+if [[ ! -e $LOGS_DIR ]]; then
+    mkdir -p $LOGS_DIR
+elif [[ ! -d $LOGS_DIR ]]; then
+    echo "$LOGS_DIR already exists but is not a directory" 1>&2
 fi
-docker run --name guoshaofm-mariadb -v $DB_DATA_DIR:/var/lib/mysql -d mariadb:latest
+
+DATA_DIR=$DB_HOME/datadir
+if [[ ! -e $DATA_DIR ]]; then
+    mkdir -p $DATA_DIR
+elif [[ ! -d $DATA_DIR ]]; then
+    echo "$DATA_DIR already exists but is not a directory" 1>&2
+fi
+
+echo "run guoshaofm-mysqldb container"
+
+docker run --name guoshaofm-mysqldb -p 3306:3306  -v $LOGS_DIR:/app/logs -v $DATA_DIR:/var/lib/mysql -d beegedelow/guoshaofm-mysqldb:latest
