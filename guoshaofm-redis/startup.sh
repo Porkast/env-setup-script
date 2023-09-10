@@ -1,4 +1,4 @@
-REDIS_WORKSPACE=$HOME/guoshao-redis
+REDIS_WORKSPACE=$HOME/guoshaofm/redis
 if [[ ! -e $REDIS_WORKSPACE ]]; then
     mkdir -p $REDIS_WORKSPACE
 elif [[ ! -d $REDIS_WORKSPACE ]]; then
@@ -6,7 +6,7 @@ elif [[ ! -d $REDIS_WORKSPACE ]]; then
 fi
 
 docker run -v $REDIS_WORKSPACE/data:/data \
-    -v $REDIS_WORKSPACE/logs:/var/log/redis/
+    -v $REDIS_WORKSPACE/logs:/var/log/redis/ \
     -p 6379:6379 \
     --name guoshaofm-redis \
     -d redis:latest --requirepass 1qaz!QAZ
