@@ -1,4 +1,4 @@
-FROM mysql:latest
+FROM mysql:8.1.0
 
 ADD ./config /etc/mysql/conf.d
 
