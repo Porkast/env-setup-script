@@ -22,4 +22,4 @@ fi
 
 echo "run guoshaofm-mysqldb container"
 
-docker run --name guoshaofm-mysqldb -p 3306:3306 -v $DB_CONFIG_DIR:/etc/mysql/conf.d -v $LOGS_DIR:/app/logs -v $DATA_DIR:/var/lib/mysql -d beegedelow/guoshaofm-mysqldb:latest
+docker run --name guoshaofm-mysqldb -p 3306:3306 -cpus=1 -v $DB_CONFIG_DIR:/etc/mysql/conf.d -v $LOGS_DIR:/app/logs -v $DATA_DIR:/var/lib/mysql -d beegedelow/guoshaofm-mysqldb:latest
