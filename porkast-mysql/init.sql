@@ -7,7 +7,6 @@ USE porkastdb;
 CREATE TABLE
     `feed_channel` (
         `id` varchar(64) NOT NULL,
-        `ido` varchar(64) NOT NULL,
         `title` varchar(128) DEFAULT NULL,
         `channel_desc` mediumtext,
         `image_url` varchar(128) DEFAULT NULL,
@@ -20,6 +19,8 @@ CREATE TABLE
         `owner_email` varchar(128) DEFAULT NULL,
         `feed_type` varchar(128) DEFAULT NULL,
         `categories` varchar(128) DEFAULT NULL,
+        `source` varchar(64) DEFAULT NULL,
+        `feed_id` varchar(64) DEFAULT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -27,6 +28,7 @@ CREATE TABLE
     `feed_item` (
         `id` varchar(64) NOT NULL,
         `channel_id` varchar(64) NOT NULL,
+        `guid` varchar(64) DEFAULT NULL,
         `title` mediumtext,
         `link` varchar(128) DEFAULT NULL,
         `pub_date` date DEFAULT NULL,
@@ -42,10 +44,11 @@ CREATE TABLE
         `season` varchar(64) DEFAULT NULL,
         `episodeType` varchar(64) DEFAULT NULL,
         `description` mediumtext,
+        `feed_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'source channel id',
         PRIMARY KEY (`id`),
         KEY `rfi_idx_channel_id` (`channel_id`),
         KEY `rfi_idx_pub_date` (`pub_date`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci
 
 CREATE TABLE
     `keyword_subscription` (
@@ -54,15 +57,11 @@ CREATE TABLE
         `feed_channel_id` varchar(128) NOT NULL,
         `feed_item_id` varchar(128) NOT NULL,
         `create_time` datetime DEFAULT NULL,
-        `order_by_date` int DEFAULT '0',
-        `lang` varchar(64) DEFAULT NULL COMMENT 'feed language',
+        `country` varchar(64) DEFAULT NULL COMMENT '',
         `source` VARCHAR(64) DEFAULT NULL,
+        `exclude_feed_id` VARCHAR(64) DEFAULT NULL,
         KEY `ks_idx_keyword` (`keyword`),
-        KEY `ks_idx_klo` (
-            `keyword`,
-            `lang`,
-            `order_by_date`
-        )
+        KEY `ks_idx_klo` (`keyword`, `lang`,)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 CREATE TABLE
@@ -100,6 +99,8 @@ CREATE TABLE
         `order_by_date` int DEFAULT NULL,
         `create_time` datetime DEFAULT NULL,
         `lang` varchar(64) DEFAULT NULL COMMENT 'feed language',
+        `country` varchar(64) DEFAULT NULL COMMENT '',
+        `exclude_feed_id` VARCHAR(64) DEFAULT NULL,
         `status` int DEFAULT '1',
         KEY `usk_idx_keyword` (`keyword`),
         KEY `usk_idx_user_id` (`user_id`),
