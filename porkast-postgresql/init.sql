@@ -1,10 +1,3 @@
-CREATE DATABASE porkastdb;
-
-CREATE USER porkast WITH PASSWORD '1qaz!QAZ';
-
-GRANT ALL PRIVILEGES ON DATABASE porkastdb TO porkast;
-
-\c porkastdb;
 
 CREATE TABLE feed_channel (
     id VARCHAR(64) NOT NULL,
